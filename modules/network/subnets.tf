@@ -12,4 +12,5 @@ resource "google_compute_subnetwork" "private" {
   region = local.region
   stack_type = "IPV4_ONLY"
   ip_cidr_range = "10.0.2.0/24"
+  private_ip_google_access = true
 }
