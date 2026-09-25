@@ -34,3 +34,20 @@ resource "google_container_node_pool" "nodes" {
       location_policy = "BALANCED"
     }
 }
+
+resource "google_service_account" "gke_sa" {
+  account_id   = "gke-service-account"
+  display_name = "GKE Service Account"
+}
+
+resource "google_project_iam_member" "gke_sa_role" {
+  project = local.project
+  role    = "roles/container.admin"
+  member  = "serviceAccount:${google_service_account.gke_sa.email}"
+}
+
+resource "google_service_account_iam_member" "gke_sa_iam" {
+  service_account_id = google_service_account.gke_sa.name
+  role               = "roles/iam.workloadIdentityUser"
+  member             = "serviceAccount:${local.project}.svc.id.goog[default/my-service-account]"
+}

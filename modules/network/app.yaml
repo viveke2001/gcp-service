@@ -1,3 +1,11 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata: 
+  name: my-service-account
+  namespace: default
+  annotations:
+    iam.gke.io/gcp-service-account: gke-service-account@project-a18c6c91-37cd-470f-9a7.iam.gserviceaccount.com
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -14,6 +22,7 @@ spec:
       labels:
         app: my-app
     spec:
+      serviceAccountName: my-service-account
       containers:
       - name: nginx
         image: nginxdemos/hello
