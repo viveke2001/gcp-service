@@ -1,28 +1,23 @@
-resource "google_project_service" "api" {
-  for_each = toset(local.apis)
-  service = each.key
-
-  disable_on_destroy = false
-}
-
 resource "google_compute_network" "name" {
-  name = "my-vpc"
-  routing_mode = "REGIONAL"
-  auto_create_subnetworks = false
-
-  depends_on = [ google_project_service.api ]
+  name = var.vpc_name
+  routing_mode = var.routing_mode
+  auto_create_subnetworks = var.auto_create_subnetworks
+  bgp_best_path_selection_mode = var.bgp_best_path_selection_mode
+  mtu = var.mtu
+  enable_ula_internal_ipv6 = var.enable_ula_internal_ipv6
+  network_firewall_policy_enforcement_order = var.network_firewall_policy_enforcement_order
 }
 
-resource "google_compute_firewall" "name" {
-  name = "my-firewall"
-  network = google_compute_network.name.name
-  allow {
-    protocol = "tcp"
-    ports = ["22", "80", "443"]
-  }
-  source_ranges = ["0.0.0.0/0"]
-  # target_tags = ["web-server"]
-}
+# resource "google_compute_firewall" "name" {
+#   name = "my-firewall"
+#   network = google_compute_network.name.name
+#   allow {
+#     protocol = "tcp"
+#     ports = ["22", "80", "443"]
+#   }
+#   source_ranges = ["0.0.0.0/0"]
+#   # target_tags = ["web-server"]
+# }
 
 # resource "google_compute_instance" "default" {
 #   name         = "my-instance"
