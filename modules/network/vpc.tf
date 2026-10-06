@@ -8,66 +8,6 @@ resource "google_compute_network" "name" {
   network_firewall_policy_enforcement_order = var.network_firewall_policy_enforcement_order
 }
 
-# resource "google_compute_firewall" "name" {
-#   name = "my-firewall"
-#   network = google_compute_network.name.name
-#   allow {
-#     protocol = "tcp"
-#     ports = ["22", "80", "443"]
-#   }
-#   source_ranges = ["0.0.0.0/0"]
-#   # target_tags = ["web-server"]
-# }
-
-# resource "google_compute_instance" "default" {
-#   name         = "my-instance"
-#   machine_type = "e2-medium"
-#   zone         = "us-central1-a"
-
-#   boot_disk {
-#     initialize_params {
-#       image = "debian-cloud/debian-11"
-#       labels = {
-#         my_label = "value"
-#       }
-#     }
-#   }
-
-#   network_interface {
-#     network = google_compute_network.name.name
-#     subnetwork = google_compute_subnetwork.public.name
-#     access_config {
-#       // Ephemeral public IP
-#     }
-#   }
-
-#   tags = ["web-server"]
-# }
-
-
-# resource "google_compute_instance" "private" {
-#   name         = "my-private-instance"
-#   machine_type = "e2-medium"
-#   zone         = "us-central1-a"
-
-#   boot_disk {
-#     initialize_params {
-#       image = "debian-cloud/debian-11"
-#       labels = {
-#         my_label = "value"
-#       }
-#     }
-#   }
-
-#   network_interface {
-#     network = google_compute_network.name.name
-#     subnetwork = google_compute_subnetwork.private.name
-    
-#   }
-
-#   tags = ["web-server"]
-# }
-
 # resource "google_compute_instance_template" "template" {
 #   name         = "my-instance-template"
 #   machine_type = "e2-medium"

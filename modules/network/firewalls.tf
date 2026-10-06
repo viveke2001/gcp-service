@@ -1,4 +1,3 @@
-# Create Firewall Rules dynamically linked to the VPC
 resource "google_compute_firewall" "rules" {
   for_each = var.firewall_rules
 

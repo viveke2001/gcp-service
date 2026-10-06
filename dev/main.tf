@@ -17,4 +17,17 @@ module "network" {
             secondary_ip_range = []
         }
     }
+    firewall_rules = {
+      "allow-tcp" = {
+        allow = [
+          {
+            protocol = "tcp"
+            ports    = ["22", "80", "443"]
+          }
+        ]
+        source_ranges = ["0.0.0.0/0"]
+        target_tags = ["web-server"]
+      }
+      
+    }
 }
