@@ -21,3 +21,36 @@ variable "ip_address" {
   type        = string
   default     = null
 }
+variable "url_maps" {
+  type = map(object({
+    default_service = string
+    host_rule = optional(list(object({
+      hosts        = list(string)
+      path_matcher = string
+    })), [])
+    path_matcher = optional(list(object({
+      name            = string
+      default_service = string
+      path_rule       = optional(list(object({
+        paths   = list(string)
+        service = string
+      })), [])
+    })), [])
+  }))
+}
+variable "backend_services" {
+  type = map(object({
+    name = string
+    health_check_name = string
+    protocol = string
+    port_name = string
+    timeout_sec = optional(number, 30)
+    check_interval_sec = optional(number, 5)
+    healthy_threshold = optional(number, 2)
+    unhealthy_threshold = optional(number, 2)
+    http_health_check = object({
+      port = number
+      request_path = string
+    })
+  }))
+}
