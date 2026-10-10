@@ -54,3 +54,17 @@ variable "backend_services" {
     })
   }))
 }
+variable "instance_templates" {
+  type = map(object({
+    name = string
+    machine_type = string
+    tags = list(string)
+    automatic_restart = optional(bool, true)
+    disk = list(object({
+      source_image = string
+      auto_delete = optional(bool, true)
+    }), [])
+    network = string
+    subnetwork = string
+  }))
+}
