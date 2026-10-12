@@ -68,3 +68,23 @@ variable "instance_templates" {
     subnetwork = string
   }))
 }
+variable "instance_groups" {
+  type = map(object({
+    name = string
+    region = string
+    base_instance_name = string
+    target_size = optional(number, 1)
+    instance_template = string
+    autoscaling_policy = object({
+      max_replicas = optional(number, 10)
+      min_replicas = optional(number, 1)
+      cooldown_period = optional(number, 60)
+      scale_in_control = object({
+        time_window_sec = optional(number, 300)
+      })
+      cpu_utilization = object({
+        target = optional(number, 0.8)
+      })
+    })
+  }))
+}
