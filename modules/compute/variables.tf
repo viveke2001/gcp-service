@@ -88,3 +88,8 @@ variable "instance_groups" {
     })
   }))
 }
+variable "create_instance_templates" {
+  description = "Whether to create instance templates"
+  type        = bool
+  default     = true
+}

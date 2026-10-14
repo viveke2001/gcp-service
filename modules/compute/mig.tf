@@ -1,5 +1,5 @@
 resource "google_compute_instance_template" "instance_template" {
-  for_each = var.instance_templates
+  for_each = var.create_instance_templates ? var.instance_templates : {}
   name        = each.value.name
   machine_type = each.value.machine_type
   tags       = each.value.tags
@@ -20,7 +20,7 @@ resource "google_compute_instance_template" "instance_template" {
 }
 
 resource "google_compute_region_instance_group_manager" "mig" {
-  for_each = var.instance_groups
+  for_each = var.create_instance_templates ? var.instance_groups : {}
   name               = each.value.name
   region             = each.value.region
   base_instance_name = each.value.base_instance_name
@@ -34,7 +34,7 @@ resource "google_compute_region_instance_group_manager" "mig" {
 }
 
 resource "google_compute_region_autoscaler" "autoscaler" {
-  for_each = var.instance_groups
+  for_each = var.create_instance_templates ? var.instance_groups : {}
   name    = "${each.value.name}-autoscaler"
   region  = each.value.region
   target  = google_compute_region_instance_group_manager.mig[each.key].id
