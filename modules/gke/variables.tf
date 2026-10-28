@@ -23,9 +23,16 @@ variable "node_pools" {
     preemptible        = bool
     min_node_count     = number
     max_node_count     = number
-    location_policy    = optional(string, BALANCED)
+    location_policy    = optional(string, "BALANCED")
     service_account    = optional(string, null)
     oauth_scopes       = optional(list(string), [])
     enable_private_nodes = optional(bool, true)
   }))
+}
+variable "autopilot_cluster_name" {
+  default = "autopilot-cluster"
+}
+variable "deletion_protection" {
+  type    = bool
+  default = false
 }

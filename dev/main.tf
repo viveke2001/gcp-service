@@ -31,3 +31,29 @@ module "network" {
       
     }
 }
+
+module "gke" {
+  source = "../modules/gke"
+  cluster_name = "my-gke-cluster"
+  location = "us-central1-a"
+  network = module.network.vpc_name
+  subnetwork = module.network.subnetwork_name["private-subnet-1"]
+  deletion_protection = false 
+  node_pools = {
+    "my-node-pool" = {
+      name = "my-node-pool"
+      location = "us-central1-a"
+      node_count = 1
+      preemptible = true
+      machine_type = "e2-medium"
+      service_account = null
+      oauth_scopes = [
+        "https://www.googleapis.com/auth/cloud-platform"
+      ]
+      min_node_count = 1
+      max_node_count = 5
+      location_policy = "BALANCED"
+      enable_private_nodes = true
+    }
+  }
+}
